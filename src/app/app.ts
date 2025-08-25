@@ -2,6 +2,7 @@ import { Component, OnInit, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { SwPush, SwUpdate } from '@angular/service-worker';
 import { NewsletterService } from './newsletter.service';
+import { env } from 'node:process';
 
 @Component({
   selector: 'app-root',
@@ -11,8 +12,8 @@ import { NewsletterService } from './newsletter.service';
 })
 export class App implements OnInit {
   protected readonly title = signal('angular-pwa-app');
-  readonly VAPID_PUBLIC_KEY =
-    'BGVnbQKNgqqMWiwUwjOVJwhDU2aa7Wu62f29NUjMuOU81Z2Fib4-J46iD2Wq3PGC3pju-WtRoeoN61TicOQD-I8';
+  readonly VAPID_PUBLIC_KEY: string =
+    'BLg6rMKpps5FY-TrO3donb02BaD8JE_oE7099CF1NcAI8jCEWH_A0Rxsx_-m3bP3_6QkKljvADYmFOj2aQW9JsU';
   constructor(
     private swUpdate: SwUpdate,
     private swPush: SwPush,
@@ -34,9 +35,7 @@ export class App implements OnInit {
   subscribeToNotifications() {
     this.swPush
       .requestSubscription({ serverPublicKey: this.VAPID_PUBLIC_KEY })
-      .then((sub) => console.log(sub))
+      .then((sub) => this.newsletterService.addPushSubscriber(sub).subscribe())
       .catch((err) => console.error('Could not subscribe to notifications', err));
-    // .then((sub) => this.newsletterService.addPushSubscriber(sub).subscribe())
-    // .catch((err) => console.error('Could not subscribe to notifications', err));
   }
 }

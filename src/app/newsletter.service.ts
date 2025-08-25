@@ -8,10 +8,10 @@ export class NewsletterService {
   constructor(private http: HttpClient) {}
 
   addPushSubscriber(sub: any) {
-    // return this.http.post('/api/notifications', sub);
+    return this.http.post('https://a3393975631e.ngrok-free.app/notifications', sub);
   }
 
   send() {
-    // return this.http.post('/api/newsletter', null);
+    return this.http.post('/api/newsletter', null);
   }
 }
